@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .setWidth {
+        @apply w-[90%] max-w-[1400px] mx-auto
+    }
+
+    .active {
+        @apply text-white
+    }
+}
