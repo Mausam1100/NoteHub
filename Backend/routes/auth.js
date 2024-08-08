@@ -19,6 +19,7 @@ router.post("/createUser", [
     // console.log(req.body);
     // let user = User(req.body)
     // user.save()
+    let success = false
     const result = validationResult(req);
     if (!result.isEmpty()) {
       return res.status(400).json({ errors: result.array() });
@@ -27,7 +28,7 @@ router.post("/createUser", [
     try {
         let user = await User.findOne({email: req.body.email})
         if (user) {
-            return res.status(400).json({error: "Sorry a user with this email already existed!"})
+            return res.status(400).json({success, error: "Sorry a user with this email already existed!"})
         }
     
         const salt = bcrypt.genSaltSync(10);
@@ -51,7 +52,8 @@ router.post("/createUser", [
         // .then(user => res.json(user))
         // .catch(err => {console.log(err)
         // res.json({error: "Please Enter A Unique Value", message: err.message })})
-        res.json({authtoken: authToken})   
+        success = true
+        res.json({success, authtoken: authToken})   
     } 
     
     catch (error) {
@@ -73,6 +75,8 @@ router.post('/login', [
     return res.status(400).json({ errors: result.array() });
   }
 
+  let success = false
+
   const {email, password} = req.body
   try {
     let user = await User.findOne({email})
@@ -83,7 +87,7 @@ router.post('/login', [
     // Check if the hash of password match or not
     const passwordCompare = await bcrypt.compare(password, user.password)
     if (!passwordCompare) {
-      return res.status(400).json({error: "Please try to login with current credentials"})
+      return res.status(400).json({success, error: "Please try to login with current credentials"})
     }
 
     //give jwt token
@@ -92,8 +96,9 @@ router.post('/login', [
         id: user.id
       }
     }
+    success = true
     var authToken = jwt.sign(data , JWT_SECRET);
-    res.json({authToken});
+    res.json({success, authtoken: authToken});
 
   } catch (error) {
     console.error(error.message)

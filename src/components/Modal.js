@@ -23,19 +23,19 @@ function Modal() {
             <div className='space-y-2'>
                 <label htmlFor="title" className='text-lg'>Title</label>
                 <div className='w-full'>
-                <input className='w-full border-[1px] border-slate-400 rounded h-8 px-3' value={noteInEdit.etitle} onChange={onChange} name='etitle' type="text" id='etitle'/>
+                <input className='w-full border-[1px] border-slate-400 rounded h-8 px-2' value={noteInEdit.etitle} onChange={onChange} name='etitle' type="text" id='etitle'  minLength={4} required/>
                 </div>
             </div>
             <div className='space-y-2'>
                 <label htmlFor="description" className='text-lg'>Description</label>
                 <div className='w-full'>
-                <input className='w-full border-[1px] border-slate-400 rounded h-8 px-3' value={noteInEdit.edescription} onChange={onChange} name='edescription' type="text" id='edescription'/>
+                <input className='w-full border-[1px] border-slate-400 rounded h-8 px-2' value={noteInEdit.edescription} onChange={onChange} name='edescription' type="text" id='edescription'  minLength={4} required/>
                 </div>
             </div>
             <div className='space-y-2'>
                 <label htmlFor="tag" className='text-lg'>Tag</label>
                 <div className='w-full'>
-                <input className='w-full border-[1px] border-slate-400 rounded h-8 px-3' value={noteInEdit.etag} onChange={onChange} name='etag' type="text" id='etag'/>
+                <input className='w-full border-[1px] border-slate-400 rounded h-8 px-2' value={noteInEdit.etag} onChange={onChange} name='etag' type="text" id='etag'/>
                 </div>
             </div>
             <button className='bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-500 font-medium mr-3' onClick={handleClick}>Edit Note</button>

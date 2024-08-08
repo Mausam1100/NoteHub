@@ -21,8 +21,8 @@ router.post(
   fetchuser,
   [
     body("title", "Enter a valid title").isLength({ min: 3 }),
-    body("description", "Description must be atleast 5 characters").isLength({
-      min: 5,
+    body("description", "Description must be atleast 4 characters").isLength({
+      min: 4,
     }),
   ],
   async (req, res) => {

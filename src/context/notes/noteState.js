@@ -1,7 +1,12 @@
 import NoteContext from "./noteContext";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import NoteAlert from "./NoteAlert";
 
 const NoteState = (props) => {
+  const context = useContext(NoteAlert)
+  const {alertTime} = context
+
+
   const host = "http://localhost:5000";
   const initialNotes = [];
 
@@ -26,8 +31,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZhYzk1OTQ2MDZlNzRjNjkwNmE1ZjM4In0sImlhdCI6MTcyMjU5MDY5OX0.QU6mORfsUW3a2PIPz0PbG97HxG9gP8sGJykFcepNqAk",
+        "auth-token": localStorage.getItem('token')
       },
     });
     const json = await response.json();
@@ -42,12 +46,12 @@ const NoteState = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZhYzk1OTQ2MDZlNzRjNjkwNmE1ZjM4In0sImlhdCI6MTcyMjU5MDY5OX0.QU6mORfsUW3a2PIPz0PbG97HxG9gP8sGJykFcepNqAk",
+        "auth-token": localStorage.getItem('token')
       },
       body: JSON.stringify({ title, description, tag }),
     });
     const json = await response.json()
+    alertTime(true, "Success", "Note Added Successfully", "bg-green-200")
     setNote(note.concat(json)); // we didn't use .push bcuz .push create a new array with pushed one whereas concat append pushed one in existing array
 
   };
@@ -60,11 +64,11 @@ const NoteState = (props) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZhYzk1OTQ2MDZlNzRjNjkwNmE1ZjM4In0sImlhdCI6MTcyMjU5MDY5OX0.QU6mORfsUW3a2PIPz0PbG97HxG9gP8sGJykFcepNqAk",
+        "auth-token": localStorage.getItem('token')
       }
     });
     const json = await response.json()
+    alertTime(true, "Success", "Note Deleted Succesfully", "bg-red-300")
     console.log(json);
 
     // Logic to edit in client
@@ -83,26 +87,21 @@ const NoteState = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZhYzk1OTQ2MDZlNzRjNjkwNmE1ZjM4In0sImlhdCI6MTcyMjU5MDY5OX0.QU6mORfsUW3a2PIPz0PbG97HxG9gP8sGJykFcepNqAk",
+        "auth-token": localStorage.getItem('token')
       },
       body: JSON.stringify({title, description, tag}),
     });
     const json = await response.json();
+    alertTime(true, "Success", "Note Edited Successfully", "bg-green-200")
     console.log(json);
 
     // Logic to edit in client
-    let newNotes = JSON.parse(JSON.stringify(note))
-    for (let i=0; i<newNotes.length; i++) {
-      const element = newNotes[i]
-      if (element._id === id) {
-        newNotes[i].title = title;
-        newNotes[i].description = description;
-        newNotes[i].tag = tag;
-        break;
-      }
-    }
-    setNote(newNotes)
+    // when we use {} bracket we need to use return and when we don't use {} bracket it itself return
+    setNote((prevNotes) =>
+      prevNotes.map((note) => {
+        return note._id === id ? { ...note, title, description, tag } : note
+    }))
+    
   };
 
   return (
