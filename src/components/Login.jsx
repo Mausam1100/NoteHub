@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import NoteAlert from '../context/notes/NoteAlert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faEyeSlash, faEye, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
 function Login(props) {
     const context = useContext(NoteAlert)
@@ -14,6 +14,15 @@ function Login(props) {
 
     const onChange = (e) => {
         setCredentials({...credentials, [e.target.name]: e.target.value})
+    }
+
+    const [showPassword, setShowPassword] = useState("password")
+    const showPasswordNow = () => {
+      setShowPassword("text")
+    }
+
+    const hidePasswordNow = () => {
+      setShowPassword("password")
     }
 
     const handleClick = async (e) => {
@@ -54,9 +63,10 @@ function Login(props) {
                         <FontAwesomeIcon icon={faEnvelope} className='pointer-events-none absolute top-[50%] translate-y-[-50%] right-4' />
                     </div>
                     <div className='info password w-full relative'>
-                        <input  className='w-full rounded-lg h-14 border-[1.5px] border-slate-500 px-3' name='password' value={credentials.password} type="password" onChange={onChange} required placeholder=''/>
+                        <input  className='w-full rounded-lg h-14 border-[1.5px] border-slate-500 px-3' name='password' value={credentials.password} type={showPassword} onChange={onChange} required placeholder=''/>
                         <label htmlFor="password" className='pointer-events-none absolute top-[50%] translate-y-[-50%] left-3'>Password</label>
-                        <FontAwesomeIcon icon={faLock} className='pointer-events-none absolute top-[50%] translate-y-[-50%] right-4'/>
+                        {showPassword==="password" ? <FontAwesomeIcon icon={faEyeSlash} className='cursor-pointer absolute top-[50%] translate-y-[-50%] right-4' onClick={showPasswordNow} />:
+                        <FontAwesomeIcon icon={faEye} className='cursor-pointer absolute top-[50%] translate-y-[-50%] right-4' onClick={hidePasswordNow} />}
                     </div>
                     <div className='w-full mt-2'>
                         <button type='submit' className='w-full rounded-full bg-blue-700 text-white font-medium text-xl py-3'>Login</button>
