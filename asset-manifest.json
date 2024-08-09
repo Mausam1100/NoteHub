@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/NoteHub/static/css/main.c1f86948.css",
+    "main.js": "/NoteHub/static/js/main.f59c0b3a.js",
+    "index.html": "/NoteHub/index.html",
+    "main.c1f86948.css.map": "/NoteHub/static/css/main.c1f86948.css.map",
+    "main.f59c0b3a.js.map": "/NoteHub/static/js/main.f59c0b3a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c1f86948.css",
+    "static/js/main.f59c0b3a.js"
+  ]
+}
