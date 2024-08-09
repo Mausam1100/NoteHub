@@ -8,7 +8,8 @@ function NoteItems(props) {
   const { deleteNote, updateNote } = context
   const {note} = props
   return (
-    <div className='w-[calc(32%-4px)]'>
+    // <div className='w-[calc(32%-4px)]'>
+    <div className='w-[calc(100%-4px)] sm:w-[calc(50%-12px)]'>
         <div className='rounded-md p-3 border-[1px] border-gray-400'>
           <div className='flex items-center justify-between'>
             <h2 className='text-lg font-medium'>{note.title}</h2>

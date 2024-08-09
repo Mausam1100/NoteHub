@@ -47,13 +47,14 @@ router.post("/createUser", [
           }
         }
         var authToken = jwt.sign(data , JWT_SECRET);
+      
         console.log(authToken);
         // If we use promise then use .then
         // .then(user => res.json(user))
         // .catch(err => {console.log(err)
         // res.json({error: "Please Enter A Unique Value", message: err.message })})
         success = true
-        res.json({success, authtoken: authToken})   
+        res.json({success, authtoken: authToken, user: { name: user.name, email: user.email}})   
     } 
     
     catch (error) {

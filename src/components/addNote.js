@@ -4,7 +4,7 @@ import NoteItems from './NoteItems'
 import NoteAlert from '../context/notes/NoteAlert'
 import { useNavigate } from 'react-router-dom'
 
-export default function AddNote() {
+export default function AddNote(props) {
   const navigate = useNavigate()
 
   const context = useContext(NoteAlert)
@@ -22,6 +22,7 @@ export default function AddNote() {
   const handleClick = (event) => {
     event.preventDefault()
     if (newNote.title.length>=3 && newNote.description.length>=4) {
+      props.setProgress(100)
       addNote(newNote.title, newNote.description, newNote.tag)
       setNewNote({"title": "", "description": "", "tag": ""})
     }
@@ -32,6 +33,7 @@ export default function AddNote() {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
+      // props.setProgress(100)
       getNotes()
     }
     else {
@@ -43,7 +45,7 @@ export default function AddNote() {
 
   return (
     <div>
-      <div className='w-[65%] mx-auto max-w-[1000px] py-6'>
+      <div className='w-[90%] lg:w-[65%] md:w-[80%] mx-auto max-w-[1000px] py-6'>
         <h2 className='text-2xl font-semibold'>Add Notes</h2>
         <div className='py-4 space-y-5'>
           <div className='space-y-2'>

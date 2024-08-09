@@ -6,8 +6,6 @@ const NoteState = (props) => {
   const context = useContext(NoteAlert)
   const {alertTime} = context
 
-
-  const host = "http://localhost:5000";
   const initialNotes = [];
 
   const [note, setNote] = useState(initialNotes);
@@ -23,11 +21,11 @@ const NoteState = (props) => {
     setNoteInEdit({"id": note._id, "etitle": note.title, "edescription": note.description, "etag": note.tag})
   }
 
-
+  
   // Get all notes from mongo to client
   const getNotes = async () => {
     // TODO: API Call
-    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+    const response = await fetch(process.env.REACT_APP_GETNOTE_URL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +40,7 @@ const NoteState = (props) => {
   // add a note
   const addNote = async (title, description, tag) => {
     // TODO: API Call
-    const response = await fetch(`${host}/api/notes/addnote`, {
+    const response = await fetch(process.env.REACT_APP_ADDNOTE_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +58,7 @@ const NoteState = (props) => {
   //delete a note
   const deleteNote = async(id) => {
     // TODO: API Call
-    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+    const response = await fetch(`${process.env.REACT_APP_DELETENOTE_URL}${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +81,7 @@ const NoteState = (props) => {
   //edit a note
   const editNote = async (id, title, description, tag) => {
     // TODO: API Call
-    const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+    const response = await fetch(`${process.env.REACT_APP_EDITNOTE_URL}${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -105,7 +103,7 @@ const NoteState = (props) => {
   };
 
   return (
-    <NoteContext.Provider value={{ note, addNote, deleteNote, editNote, getNotes, show, setShow, updateNote, noteInEdit, setNoteInEdit }}>
+    <NoteContext.Provider value={{ note, addNote, deleteNote, editNote, getNotes, show,  setShow, updateNote, noteInEdit, setNoteInEdit }}>
       {props.children}
     </NoteContext.Provider>
   );

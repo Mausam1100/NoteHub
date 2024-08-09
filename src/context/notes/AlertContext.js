@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import NoteAlert from './NoteAlert'
 
 function AlertContext(props) {
